@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: vote-app
+spec:
+  selector:
+    app: postgres
+  ports:
+    - name: pgsql
+      port: 5432
+      targetPort: 5432

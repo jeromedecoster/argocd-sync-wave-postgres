@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: vote-app
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  selector:
+    app: postgres
+  ports:
+    - name: pgsql
+      port: 5432
+      targetPort: 5432

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: website
+  namespace: vote-app
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  selector:
+    matchLabels:
+      app: website
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: website
+    spec:
+      containers:
+      - name: website
+        image: ${website_image}
+        env:
+          - name: NODE_ENV
+            value: production
+          - name: VERSION
+            value: "1.0.0"
+          - name: WEBSITE_PORT
+            value: "3000"
+          - name: POSTGRES_USER
+            value: "admin"
+          - name: POSTGRES_HOST
+            value: "postgres"
+          - name: POSTGRES_DATABASE
+            value: "vote"
+          - name: POSTGRES_PASSWORD
+            value: "password"
+          - name: POSTGRES_PORT
+            value: "5432"
+        ports:
+        - containerPort: 3000
+      imagePullSecrets:
+        - name: regcred
